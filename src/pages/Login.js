@@ -16,6 +16,7 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.validateButton = this.validateButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.goSettings = this.goSettings.bind(this);
   }
 
   handleChange({ target }) {
@@ -48,41 +49,55 @@ class Login extends Component {
     history.push('/game');
   }
 
+  goSettings() {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
     const { gravatarEmail, name, isDisabled } = this.state;
     return (
-      <form>
-        <label htmlFor="email">
-          Email:
-          <input
-            name="gravatarEmail"
-            data-testid="input-gravatar-email"
-            type="email"
-            onChange={ this.handleChange }
-            value={ gravatarEmail }
-          />
-        </label>
+      <div>
+        <form>
+          <label htmlFor="email">
+            Email:
+            <input
+              name="gravatarEmail"
+              data-testid="input-gravatar-email"
+              type="email"
+              onChange={ this.handleChange }
+              value={ gravatarEmail }
+            />
+          </label>
 
-        <label htmlFor="name">
-          Nome:
-          <input
-            name="name"
-            data-testid="input-player-name"
-            type="text"
-            onChange={ this.handleChange }
-            value={ name }
-          />
-        </label>
+          <label htmlFor="name">
+            Nome:
+            <input
+              name="name"
+              data-testid="input-player-name"
+              type="text"
+              onChange={ this.handleChange }
+              value={ name }
+            />
+          </label>
 
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ isDisabled }
+            onClick={ this.handleClick }
+          >
+            Play
+          </button>
+        </form>
         <button
           type="button"
-          data-testid="btn-play"
-          disabled={ isDisabled }
-          onClick={ this.handleClick }
+          data-testid="btn-settings"
+          onClick={ this.goSettings }
         >
-          Play
+          SETTINGS
         </button>
-      </form>
+      </div>
     );
   }
 }
