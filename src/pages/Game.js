@@ -8,7 +8,6 @@ import Timer from '../components/Timer';
 import '../App.css';
 
 const FAILED_RESPONSE_CODE = 3;
-// let INDEX = 0;
 
 class Game extends Component {
   constructor() {
@@ -17,10 +16,13 @@ class Game extends Component {
       questions: [],
       answers: [],
       answered: false,
+      questionNumber: 0,
     };
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.handleClickAnswered = this.handleClickAnswered.bind(this);
     this.handleColor = this.handleColor.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
+    this.createAnswers = this.createAnswers.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,14 @@ class Game extends Component {
     return arr;
   }
 
+  createAnswers() {
+    const { questions, questionNumber } = this.state;
+    const answers = [...questions[questionNumber].incorrect_answers,
+      questions[questionNumber].correct_answer];
+    const shuffledAnswers = this.shuffleArray(answers);
+    this.setState({ answers: shuffledAnswers });
+  }
+
   async fetchQuestions() {
     const { token, dispatchToken } = this.props;
     const setQuestions = await fetchQuestions(token);
@@ -42,17 +52,13 @@ class Game extends Component {
       const newToken = await fetchToken();
       dispatchToken(newToken);
     }
-    this.setState({ questions: setQuestions.results }, () => {
-      const { questions } = this.state;
-      const answers = [...questions[0].incorrect_answers, questions[0].correct_answer];
-      const shuffledAnswers = this.shuffleArray(answers);
-      this.setState({ answers: shuffledAnswers });
-    });
+    this.setState({ questions: setQuestions.results });
+    this.createAnswers();
   }
 
   handleColor(answer) {
-    const { questions } = this.state;
-    if (questions[0].correct_answer === answer) {
+    const { questions, questionNumber } = this.state;
+    if (questions[questionNumber].correct_answer === answer) {
       return 'green-border';
     }
     return 'red-border';
@@ -64,8 +70,15 @@ class Game extends Component {
     });
   }
 
+  handleClickNext() {
+    this.setState((prevState) => ({
+      questionNumber: prevState.questionNumber + 1,
+      answered: false,
+    }), () => this.createAnswers());
+  }
+
   render() {
-    const { questions, answers, answered } = this.state;
+    const { questions, answers, answered, questionNumber } = this.state;
     return (
       <div>
         <h1>Game Page</h1>
@@ -74,8 +87,12 @@ class Game extends Component {
         <div>
           {questions.length > 0 ? (
             <div>
-              <p data-testid="question-category">{ questions[0].category }</p>
-              <p data-testid="question-text">{ questions[0].question }</p>
+              <p
+                data-testid="question-category"
+              >
+                { questions[questionNumber].category }
+              </p>
+              <p data-testid="question-text">{ questions[questionNumber].question }</p>
               <div data-testid="answer-options">
                 {answers.map((answer, index) => (
                   <button
@@ -83,7 +100,7 @@ class Game extends Component {
                     onClick={ this.handleClickAnswered }
                     type="button"
                     key={ index }
-                    data-testid={ (questions[0].correct_answer === answer)
+                    data-testid={ (questions[questionNumber].correct_answer === answer)
                       ? 'correct-answer' : `wrong-answer-${index}` }
                   >
                     {answer}
@@ -92,10 +109,16 @@ class Game extends Component {
               </div>
             </div>
           ) : ''}
-          {/* <button data-testid="btn-next" onClick={ index += 1 }>
-            Next
-          </button> */}
         </div>
+        {answered
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleClickNext }
+            >
+              Next
+            </button>) : ''}
       </div>
     );
   }
