@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions, fetchToken } from '../services/fetch';
 import { setToken } from '../actions/index';
+import '../App.css';
 
 const FAILED_RESPONSE_CODE = 3;
 // let INDEX = 0;
@@ -14,8 +15,11 @@ class Game extends Component {
     this.state = {
       questions: [],
       answers: [],
+      answered: false,
     };
     this.fetchQuestions = this.fetchQuestions.bind(this);
+    this.handleClickAnswered = this.handleClickAnswered.bind(this);
+    this.handleColor = this.handleColor.bind(this);
   }
 
   componentDidMount() {
@@ -45,8 +49,26 @@ class Game extends Component {
     });
   }
 
+  /*  if (  === 'correct-answer') {
+    button.className = 'green-border';
+  } */
+
+  handleColor(answer) {
+    const { questions } = this.state;
+    if (questions[0].correct_answer === answer) {
+      return 'green-border';
+    }
+    return 'red-border';
+  }
+
+  handleClickAnswered() {
+    this.setState({
+      answered: true,
+    });
+  }
+
   render() {
-    const { questions, answers } = this.state;
+    const { questions, answers, answered } = this.state;
     return (
       <div>
         <h1>Game Page</h1>
@@ -59,6 +81,8 @@ class Game extends Component {
               <div data-testid="answer-options">
                 {answers.map((answer, index) => (
                   <button
+                    className={ answered ? this.handleColor(answer) : '' }
+                    onClick={ this.handleClickAnswered }
                     type="button"
                     key={ index }
                     data-testid={ (questions[0].correct_answer === answer)
