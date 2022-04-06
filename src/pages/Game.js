@@ -8,7 +8,7 @@ import Timer from '../components/Timer';
 import '../App.css';
 
 const FAILED_RESPONSE_CODE = 3;
-
+const TOTAL_QUESTIONS = 4;
 class Game extends Component {
   constructor() {
     super();
@@ -71,6 +71,11 @@ class Game extends Component {
   }
 
   handleClickNext() {
+    const { questionNumber } = this.state;
+    if (questionNumber === TOTAL_QUESTIONS) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
     this.setState((prevState) => ({
       questionNumber: prevState.questionNumber + 1,
       answered: false,
@@ -135,6 +140,9 @@ const mapDispatchToProps = (dispatch) => ({
 Game.propTypes = {
   token: propTypes.string.isRequired,
   dispatchToken: propTypes.func.isRequired,
+  history: propTypes.shape({
+    push: propTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
