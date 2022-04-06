@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions, fetchToken } from '../services/fetch';
 import { setToken } from '../actions/index';
+import Timer from '../components/Timer';
 import '../App.css';
 
 const FAILED_RESPONSE_CODE = 3;
@@ -49,10 +50,6 @@ class Game extends Component {
     });
   }
 
-  /*  if (  === 'correct-answer') {
-    button.className = 'green-border';
-  } */
-
   handleColor(answer) {
     const { questions } = this.state;
     if (questions[0].correct_answer === answer) {
@@ -73,6 +70,7 @@ class Game extends Component {
       <div>
         <h1>Game Page</h1>
         <Header />
+        <Timer />
         <div>
           {questions.length > 0 ? (
             <div>
