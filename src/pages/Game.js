@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions, fetchToken } from '../services/fetch';
-import { setToken, sumScore,setAnswers } from '../actions/index';
+import { setToken, sumScore, setAnswers } from '../actions/index';
 import Timer from '../components/Timer';
 import '../App.css';
 
@@ -33,12 +33,6 @@ class Game extends Component {
 
   componentDidMount() {
     this.fetchQuestions();
-  }
-
-  componentDidUpdate() {
-    const { sendAnswers } = this.props;
-    const { rightAnswers } = this.state;
-    sendAnswers(rightAnswers);
   }
 
   shuffleArray = (arr) => {
@@ -78,21 +72,6 @@ class Game extends Component {
     return 'red-border';
   }
 
-  handleClickAnswered2(answer) {
-    const { questions, questionNumber } = this.state;
-    const correct = questions[questionNumber].correct_answer === answer;
-    if (correct) {
-      this.setState((prevState) => ({
-        rightAnswers: prevState.rightAnswers + 1,
-        answered: true,
-      }));
-    } else {
-      this.setState({
-        answered: true,
-      });
-    }
-  }
-  
   calculatePoint() {
     const { questions, questionNumber } = this.state;
     const base = 10;
@@ -113,17 +92,18 @@ class Game extends Component {
   }
 
   handleClickAnswered({ target }) {
-    const { dispatchScore } = this.props;
+    const { dispatchScore, sendAnswers } = this.props;
     this.setState({
       answered: true,
     });
-    console.log(target.dataset.testid);
     if (target.dataset.testid === 'correct-answer') {
       this.setState((prevState) => ({
         point: prevState.point + this.calculatePoint(),
+        rightAnswers: prevState.rightAnswers + 1,
       }), () => {
-        const { point } = this.state;
+        const { point, rightAnswers } = this.state;
         dispatchScore(point);
+        sendAnswers(rightAnswers);
       });
     }
   }
@@ -166,7 +146,7 @@ class Game extends Component {
                 {answers.map((answer, index) => (
                   <button
                     className={ answered ? this.handleColor(answer) : '' }
-                    onClick={ () => this.handleClickAnswered(answer) }
+                    onClick={ this.handleClickAnswered }
                     type="button"
                     key={ index }
                     data-testid={ (questions[questionNumber].correct_answer === answer)
