@@ -17,7 +17,7 @@ class Game extends Component {
       answers: [],
       answered: false,
       questionNumber: 0,
-      point: '',
+      point: 0,
     };
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.handleClickAnswered = this.handleClickAnswered.bind(this);
@@ -87,17 +87,18 @@ class Game extends Component {
   }
 
   handleClickAnswered({ target }) {
-    const { point } = this.state;
     const { dispatchScore } = this.props;
     this.setState({
       answered: true,
     });
     console.log(target.dataset.testid);
     if (target.dataset.testid === 'correct-answer') {
-      console.log('xabla');
       this.setState((prevState) => ({
         point: prevState.point + this.calculatePoint(),
-      }), () => dispatchScore(point));
+      }), () => {
+        const { point } = this.state;
+        dispatchScore(point);
+      });
     }
   }
 
