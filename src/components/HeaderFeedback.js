@@ -4,8 +4,24 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
 class HeaderFeedback extends Component {
+  componentDidMount() {
+    const saveLocal = JSON.parse(localStorage.getItem('ranking'));
+    const { assertions, score, name, email } = this.props;
+    localStorage.setItem('score', score);
+    localStorage.setItem('assertions', assertions);
+    const hashedEmail = md5(email).toString();
+    const picture = `https://www.gravatar.com/avatar/${hashedEmail}`;
+    const obj = {
+      name,
+      score,
+      picture,
+    };
+    const saveStorage = JSON.stringify([...saveLocal, obj]);
+    localStorage.setItem('ranking', saveStorage);
+  }
+
   render() {
-    const { email, nome, score } = this.props;
+    const { email, name, score } = this.props;
     const hashedEmail = md5(email).toString();
     return (
       <header>
@@ -15,7 +31,7 @@ class HeaderFeedback extends Component {
           src={ `https://www.gravatar.com/avatar/${hashedEmail}` }
           alt="img-profile"
         />
-        <p data-testid="header-player-name">{ nome }</p>
+        <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">{ score }</p>
       </header>
     );
@@ -24,14 +40,16 @@ class HeaderFeedback extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.player.gravatarEmail,
-  nome: state.player.name,
+  name: state.player.name,
   score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 HeaderFeedback.propTypes = {
   email: propTypes.string.isRequired,
-  nome: propTypes.string.isRequired,
+  name: propTypes.string.isRequired,
   score: propTypes.number.isRequired,
+  assertions: propTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(HeaderFeedback);
