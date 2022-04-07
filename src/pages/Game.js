@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions, fetchToken } from '../services/fetch';
-import { setToken, sumScore } from '../actions/index';
+import { setToken, sumScore,setAnswers } from '../actions/index';
 import Timer from '../components/Timer';
 import '../App.css';
 
@@ -17,6 +17,7 @@ class Game extends Component {
       answers: [],
       answered: false,
       questionNumber: 0,
+      rightAnswers: 0,
       point: 0,
       timeLeft: 30,
     };
@@ -32,6 +33,12 @@ class Game extends Component {
 
   componentDidMount() {
     this.fetchQuestions();
+  }
+
+  componentDidUpdate() {
+    const { sendAnswers } = this.props;
+    const { rightAnswers } = this.state;
+    sendAnswers(rightAnswers);
   }
 
   shuffleArray = (arr) => {
@@ -63,12 +70,29 @@ class Game extends Component {
 
   handleColor(answer) {
     const { questions, questionNumber } = this.state;
-    if (questions[questionNumber].correct_answer === answer) {
+    const correct = questions[questionNumber].correct_answer === answer;
+    if (correct) {
       return 'green-border';
     }
+
     return 'red-border';
   }
 
+  handleClickAnswered2(answer) {
+    const { questions, questionNumber } = this.state;
+    const correct = questions[questionNumber].correct_answer === answer;
+    if (correct) {
+      this.setState((prevState) => ({
+        rightAnswers: prevState.rightAnswers + 1,
+        answered: true,
+      }));
+    } else {
+      this.setState({
+        answered: true,
+      });
+    }
+  }
+  
   calculatePoint() {
     const { questions, questionNumber } = this.state;
     const base = 10;
@@ -142,7 +166,7 @@ class Game extends Component {
                 {answers.map((answer, index) => (
                   <button
                     className={ answered ? this.handleColor(answer) : '' }
-                    onClick={ this.handleClickAnswered }
+                    onClick={ () => this.handleClickAnswered(answer) }
                     type="button"
                     key={ index }
                     data-testid={ (questions[questionNumber].correct_answer === answer)
@@ -175,12 +199,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchToken: (token) => dispatch(setToken(token)),
+  sendAnswers: (payload) => dispatch(setAnswers(payload)),
   dispatchScore: (payload) => dispatch(sumScore(payload)),
 });
 
 Game.propTypes = {
   token: propTypes.string.isRequired,
   dispatchToken: propTypes.func.isRequired,
+  sendAnswers: propTypes.func.isRequired,
   dispatchScore: propTypes.func.isRequired,
   history: propTypes.shape({
     push: propTypes.func.isRequired,
