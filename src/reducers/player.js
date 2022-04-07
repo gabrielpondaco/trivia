@@ -1,6 +1,4 @@
-import { LOGIN } from '../actions';
-import { ANSWER } from '../actions/index';
-
+import { LOGIN, ANSWER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -17,12 +15,12 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       name: action.payload.name,
       gravatarEmail: action.payload.gravatarEmail,
     };
-    case ANSWER:
+  case ANSWER:
     return {
       ...state,
       assertions: action.payload,
     };
-    
+
   default:
     return state;
   }
