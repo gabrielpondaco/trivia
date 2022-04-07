@@ -3,7 +3,6 @@ export const TOKEN = 'TOKEN';
 export const ANSWER = 'ANSWER';
 export const SUM_SCORE = 'SUM_SCORE';
 
-
 export const login = (payload) => ({
   type: LOGIN,
   payload,
@@ -14,10 +13,11 @@ export const setToken = (token) => ({
   token,
 });
 
-
 export const setAnswers = (payload) => ({
   type: ANSWER,
+  payload,
 });
+
 export const sumScore = (payload) => ({
   type: SUM_SCORE,
   payload,

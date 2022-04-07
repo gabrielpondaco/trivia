@@ -7,8 +7,6 @@ class Feedback extends Component {
   render() {
     const { rightAnswers } = this.props;
     const AVALIATOR = 3;
-    console.log('feed');
-    console.log(rightAnswers);
     return (
       <div>
         <HeaderFeedback />
