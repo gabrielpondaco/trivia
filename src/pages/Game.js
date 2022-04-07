@@ -18,6 +18,7 @@ class Game extends Component {
       answered: false,
       questionNumber: 0,
       point: 0,
+      timeLeft: 30,
     };
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.handleClickAnswered = this.handleClickAnswered.bind(this);
@@ -26,6 +27,7 @@ class Game extends Component {
     this.createAnswers = this.createAnswers.bind(this);
     this.handleClickAnswered = this.handleClickAnswered.bind(this);
     this.calculatePoint = this.calculatePoint.bind(this);
+    this.handleTime = this.handleTime.bind(this);
   }
 
   componentDidMount() {
@@ -103,8 +105,8 @@ class Game extends Component {
   }
 
   handleClickNext() {
-    const { questionNumber } = this.state;
-    if (questionNumber === TOTAL_QUESTIONS) {
+    const { questionNumber, timeLeft } = this.state;
+    if (questionNumber === TOTAL_QUESTIONS || timeLeft === 0) {
       const { history } = this.props;
       history.push('/feedback');
     }
@@ -114,13 +116,19 @@ class Game extends Component {
     }), () => this.createAnswers());
   }
 
+  handleTime(time) {
+    this.setState({
+      timeLeft: time,
+    });
+  }
+
   render() {
-    const { questions, answers, answered, questionNumber } = this.state;
+    const { questions, answers, answered, questionNumber, timeLeft } = this.state;
     return (
       <div>
         <h1>Game Page</h1>
         <Header />
-        <Timer />
+        <Timer onChange={ this.handleTime } />
         <div>
           {questions.length > 0 ? (
             <div>
@@ -147,7 +155,7 @@ class Game extends Component {
             </div>
           ) : ''}
         </div>
-        {answered
+        {answered || timeLeft === 0
           ? (
             <button
               type="button"

@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 const second = 1000;
 class Timer extends React.Component {
@@ -20,6 +21,8 @@ class Timer extends React.Component {
         time: prevState.time - 1,
       }), () => {
         const { time } = this.state;
+        const { onChange } = this.props;
+        onChange(time);
         if (time === 0) {
           clearInterval(interval);
           const buttons = document.querySelectorAll('button');
@@ -38,5 +41,9 @@ class Timer extends React.Component {
     );
   }
 }
+
+Timer.propTypes = {
+  onChange: propTypes.func.isRequired,
+};
 
 export default Timer;
