@@ -1,4 +1,4 @@
-import { LOGIN, ANSWER, SUM_SCORE } from '../actions';
+import { LOGIN, ANSWER, SUM_SCORE, RESTART_GAME } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -9,6 +9,8 @@ const INITIAL_STATE = {
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case RESTART_GAME:
+    return INITIAL_STATE;
   case LOGIN:
     return {
       ...state,

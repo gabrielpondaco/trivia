@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { restartGame } from '../actions/index';
 
 class Ranking extends Component {
   constructor() {
@@ -26,7 +27,8 @@ class Ranking extends Component {
   }
 
   handleClick() {
-    const { history } = this.props;
+    const { history, restart } = this.props;
+    restart();
     history.push('/');
   }
 
@@ -43,8 +45,8 @@ class Ranking extends Component {
           HOME
         </button>
         {
-          players.map((player, index) => (
-            <div key={ index }>
+          players.sort((a, b) => b.score - a.score).map((player, index) => (
+            <div key={ player.score }>
               <img src={ player.picture } alt={ player.name } />
               <p data-testid={ `player-name-${index}` }>{ player.name }</p>
               <p data-testid={ `player-score-${index}` }>{ player.score }</p>
@@ -56,10 +58,15 @@ class Ranking extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  restart: () => dispatch(restartGame()),
+});
+
 Ranking.propTypes = {
   history: propTypes.shape({
     push: propTypes.func.isRequired,
   }).isRequired,
+  restart: propTypes.func.isRequired,
 };
 
-export default Ranking;
+export default connect(null, mapDispatchToProps)(Ranking);

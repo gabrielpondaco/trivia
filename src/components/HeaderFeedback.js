@@ -5,6 +5,9 @@ import propTypes from 'prop-types';
 
 class HeaderFeedback extends Component {
   componentDidMount() {
+    if (!localStorage.getItem('ranking')) {
+      localStorage.setItem('ranking', JSON.stringify([]));
+    }
     const saveLocal = JSON.parse(localStorage.getItem('ranking'));
     const { assertions, score, name, email } = this.props;
     localStorage.setItem('score', score);

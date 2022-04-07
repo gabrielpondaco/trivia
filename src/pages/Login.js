@@ -20,10 +20,6 @@ class Login extends Component {
     this.goSettings = this.goSettings.bind(this);
   }
 
-  componentDidMount() {
-    localStorage.setItem('ranking', JSON.stringify([]));
-  }
-
   handleChange({ target }) {
     const { name, value } = target;
     this.setState({
