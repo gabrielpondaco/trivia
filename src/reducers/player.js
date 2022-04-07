@@ -1,4 +1,4 @@
-import { LOGIN, ANSWER } from '../actions';
+import { LOGIN, ANSWER, SUM_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -20,7 +20,11 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       ...state,
       assertions: action.payload,
     };
-
+  case SUM_SCORE:
+    return {
+      ...state,
+      score: action.payload,
+    };
   default:
     return state;
   }
