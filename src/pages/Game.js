@@ -7,6 +7,8 @@ import { setToken, sumScore, setAnswers } from '../actions/index';
 import Timer from '../components/Timer';
 import '../App.css';
 
+const he = require('he');
+
 const FAILED_RESPONSE_CODE = 3;
 const TOTAL_QUESTIONS = 4;
 class Game extends Component {
@@ -20,6 +22,7 @@ class Game extends Component {
       rightAnswers: 0,
       point: 0,
       timeLeft: 30,
+      resetClock: true,
     };
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.handleClickAnswered = this.handleClickAnswered.bind(this);
@@ -52,8 +55,8 @@ class Game extends Component {
   }
 
   async fetchQuestions() {
-    const { token, dispatchToken } = this.props;
-    const setQuestions = await fetchQuestions(token);
+    const { token, dispatchToken, settings: { category, difficulty, type } } = this.props;
+    const setQuestions = await fetchQuestions(token, category, difficulty, type);
     if (setQuestions.response_code === FAILED_RESPONSE_CODE) {
       const newToken = await fetchToken();
       dispatchToken(newToken);
@@ -95,6 +98,7 @@ class Game extends Component {
     const { dispatchScore, sendAnswers } = this.props;
     this.setState({
       answered: true,
+      resetClock: false,
     });
     if (target.dataset.testid === 'correct-answer') {
       this.setState((prevState) => ({
@@ -117,6 +121,7 @@ class Game extends Component {
     this.setState((prevState) => ({
       questionNumber: prevState.questionNumber + 1,
       answered: false,
+      resetClock: true,
     }), () => this.createAnswers());
   }
 
@@ -127,12 +132,14 @@ class Game extends Component {
   }
 
   render() {
-    const { questions, answers, answered, questionNumber, timeLeft } = this.state;
+    const { questions, answers, answered, questionNumber, timeLeft,
+      resetClock } = this.state;
     return (
       <div>
         <h1>Game Page</h1>
         <Header />
-        <Timer onChange={ this.handleTime } />
+        {resetClock ? (
+          <Timer onChange={ this.handleTime } resetClock={ resetClock } />) : ''}
         <div>
           {questions.length > 0 ? (
             <div>
@@ -141,7 +148,9 @@ class Game extends Component {
               >
                 { questions[questionNumber].category }
               </p>
-              <p data-testid="question-text">{ questions[questionNumber].question }</p>
+              <p data-testid="question-text">
+                { he.decode(questions[questionNumber].question) }
+              </p>
               <div data-testid="answer-options">
                 {answers.map((answer, index) => (
                   <button
@@ -175,6 +184,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   token: state.token,
+  settings: state.player.settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -191,6 +201,7 @@ Game.propTypes = {
   history: propTypes.shape({
     push: propTypes.func.isRequired,
   }).isRequired,
+  settings: propTypes.objectOf(propTypes.any).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

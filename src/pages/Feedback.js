@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import HeaderFeedback from '../components/HeaderFeedback';
+import { restartGame } from '../actions/index';
 
 class Feedback extends Component {
   render() {
-    const { rightAnswers, history, setScore } = this.props;
+    const { rightAnswers, history, setScore, restart } = this.props;
     const AVALIATOR = 3;
     return (
       <div>
@@ -27,6 +28,7 @@ class Feedback extends Component {
           type="button"
           data-testid="btn-play-again"
           onClick={ () => {
+            restart();
             history.push('/');
           } }
         >
@@ -53,12 +55,17 @@ const mapStateToProps = (state) => ({
   setScore: state.player.score,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  restart: () => dispatch(restartGame()),
+});
+
 Feedback.propTypes = {
   rightAnswers: propTypes.number.isRequired,
   setScore: propTypes.number.isRequired,
   history: propTypes.shape({
     push: propTypes.func.isRequired,
   }).isRequired,
+  restart: propTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

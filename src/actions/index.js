@@ -3,6 +3,7 @@ export const TOKEN = 'TOKEN';
 export const ANSWER = 'ANSWER';
 export const SUM_SCORE = 'SUM_SCORE';
 export const RESTART_GAME = 'RESTART_GAME';
+export const SET_SETTINGS = 'SET_SETTINGS';
 
 export const login = (payload) => ({
   type: LOGIN,
@@ -26,4 +27,9 @@ export const sumScore = (payload) => ({
 
 export const restartGame = () => ({
   type: RESTART_GAME,
+});
+
+export const setSettings = (payload) => ({
+  type: SET_SETTINGS,
+  payload,
 });

@@ -1,10 +1,11 @@
-import { LOGIN, ANSWER, SUM_SCORE, RESTART_GAME } from '../actions';
+import { LOGIN, ANSWER, SUM_SCORE, RESTART_GAME, SET_SETTINGS } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   assertions: 0,
   score: 0,
   gravatarEmail: '',
+  settings: {},
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
@@ -26,6 +27,11 @@ const loginReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: action.payload,
+    };
+  case SET_SETTINGS:
+    return {
+      ...state,
+      settings: action.payload,
     };
   default:
     return state;
