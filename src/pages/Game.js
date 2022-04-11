@@ -5,7 +5,8 @@ import Header from '../components/Header';
 import { fetchQuestions, fetchToken } from '../services/fetch';
 import { setToken, sumScore, setAnswers } from '../actions/index';
 import Timer from '../components/Timer';
-import '../App.css';
+import '../css/game.css';
+import logo from '../trivia.png';
 
 const he = require('he');
 
@@ -135,42 +136,51 @@ class Game extends Component {
     const { questions, answers, answered, questionNumber, timeLeft,
       resetClock } = this.state;
     return (
-      <div className="formWidth">
-        <Header />
-        <div>
+      <body className="body-game">
+        <div className="header-timer">
+          <img src={ logo } className="App-logo-game" alt="logo" />
+          <Header />
           {resetClock ? (
             <Timer onChange={ this.handleTime } resetClock={ resetClock } />) : ''}
-          <div>
-            {questions.length > 0 ? (
-              <div>
-                <p
+        </div>
+        <div className="container-game">
+          {questions.length > 0 ? (
+            <section className="section-category-question">
+              <span className="span-category">
+                <h1
                   data-testid="question-category"
                 >
-                  { questions[questionNumber].category }
-                </p>
-                <p data-testid="question-text">
+                  <div className="categoryLabel">
+                    <span id="categoryText">Category: </span>
+                    { questions[questionNumber].category }
+                  </div>
+                </h1>
+              </span>
+              <span className="span-question">
+                <h3 data-testid="question-text">
                   { he.decode(questions[questionNumber].question) }
-                </p>
-                <div data-testid="answer-options">
-                  {answers.map((answer, index) => (
-                    <button
-                      className={ answered ? this.handleColor(answer) : '' }
-                      onClick={ this.handleClickAnswered }
-                      type="button"
-                      key={ index }
-                      data-testid={ (questions[questionNumber].correct_answer === answer)
-                        ? 'correct-answer' : `wrong-answer-${index}` }
-                    >
-                      {he.decode(answer)}
-                    </button>
-                  ))}
-                </div>
+                </h3>
+              </span>
+              <div data-testid="answer-options" className="container-btn-question">
+                {answers.map((answer, index) => (
+                  <button
+                    className={ answered ? this.handleColor(answer) : '' }
+                    onClick={ this.handleClickAnswered }
+                    type="button"
+                    key={ index }
+                    data-testid={ (questions[questionNumber].correct_answer === answer)
+                      ? 'correct-answer' : `wrong-answer-${index}` }
+                  >
+                    {answer}
+                  </button>
+                ))}
               </div>
-            ) : ''}
-          </div>
+            </section>
+          ) : ''}
           {answered || timeLeft === 0
             ? (
               <button
+                id="btn-next"
                 type="button"
                 data-testid="btn-next"
                 onClick={ this.handleClickNext }
@@ -178,7 +188,7 @@ class Game extends Component {
                 Next
               </button>) : ''}
         </div>
-      </div>
+      </body>
     );
   }
 }

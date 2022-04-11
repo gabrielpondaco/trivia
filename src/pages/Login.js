@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import logo from '../trivia.png';
 import { login, setToken } from '../actions/index';
 import { fetchToken } from '../services/fetch';
+import '../css/login.css';
 
 class Login extends Component {
   constructor() {
@@ -60,52 +61,57 @@ class Login extends Component {
   render() {
     const { gravatarEmail, name, isDisabled } = this.state;
     return (
-      <div className="maxWidth">
-        <img src={ logo } className="App-logo" alt="logo" />
-        <form>
-          <div className="mb-3 d-flex justify-content-around">
-            <input
-              name="gravatarEmail"
-              data-testid="input-gravatar-email"
-              type="email"
-              onChange={ this.handleChange }
-              value={ gravatarEmail }
-              placeholder="Email"
-              className="input-group-text"
-            />
-          </div>
-          <div className="mb-3 d-flex justify-content-around">
-            <input
-              name="name"
-              data-testid="input-player-name"
-              type="text"
-              onChange={ this.handleChange }
-              value={ name }
-              placeholder="Nome"
-              className="input-group-text"
-            />
-          </div>
-        </form>
-        <div className="d-flex justify-content-around width228">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ this.handleClick }
-            className="btn btn-dark"
-          >
-            Play
-          </button>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.goSettings }
-            className="btn btn-dark"
-          >
-            Settings
-          </button>
-        </div>
-      </div>
+      <body className="body-login">
+        <header className="header-login">
+          <img src={ logo } className="App-logo" alt="logo" />
+        </header>
+        <main className="main-login">
+          <form>
+            <label htmlFor="email">
+              <input
+                id="input-email"
+                name="gravatarEmail"
+                data-testid="input-gravatar-email"
+                type="email"
+                onChange={ this.handleChange }
+                value={ gravatarEmail }
+                placeholder="E-mail"
+              />
+            </label>
+            <label htmlFor="name">
+              <input
+                id="input-nome"
+                name="name"
+                data-testid="input-player-name"
+                type="text"
+                onChange={ this.handleChange }
+                value={ name }
+                placeholder="Nome"
+              />
+            </label>
+
+          </form>
+          <section className="section-btn">
+            <button
+              id="btn-play"
+              type="button"
+              data-testid="btn-play"
+              disabled={ isDisabled }
+              onClick={ this.handleClick }
+            >
+              Play
+            </button>
+            <button
+              id="btn-settings"
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.goSettings }
+            >
+              Settings
+            </button>
+          </section>
+        </main>
+      </body>
     );
   }
 }

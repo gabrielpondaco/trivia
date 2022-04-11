@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { setSettings } from '../actions/index';
-import settingsIMG from '../image/settingsIMG.svg';
+import settingsIMG from '../images/img-settings.svg';
+import '../css/settings.css';
 
 const EIGHT = 8;
 const MULTIPLE_CHOICE = 'Multiple Choice';
@@ -54,17 +55,17 @@ class Settings extends Component {
     const types = [MULTIPLE_CHOICE, 'True / False'];
     const { category, difficulty, type } = this.state;
     return (
-      <main>
+      <main className="App-header d-flex justify-content-center">
         <img src={ settingsIMG } alt="pair programming" className="settingsIMG" />
         <form className="d-flex flex-column bd-highlight mb-3 formWidth">
-          <div>
+          <div className="App">
             <label htmlFor="category" className="form-label">
               Category:
               <select
                 name="category"
                 value={ category }
                 onChange={ this.onInputChange }
-                className="form-select"
+                id="borderRadiusCat"
               >
                 {categories
                   .map((categoryy, index) => (
@@ -72,7 +73,6 @@ class Settings extends Component {
               </select>
             </label>
           </div>
-
           <div className="mb-3 d-flex justify-content-between width marginLeft">
             <label htmlFor="difficulty" className="form-label">
               Difficulty:
@@ -80,7 +80,7 @@ class Settings extends Component {
                 name="difficulty"
                 value={ difficulty }
                 onChange={ this.onInputChange }
-                className="form-select"
+                id="borderRadius"
               >
                 {difficulties
                   .map((difficultyy) => (
@@ -93,7 +93,8 @@ class Settings extends Component {
                 name="type"
                 value={ type }
                 onChange={ this.onInputChange }
-                className="form-select"
+                // className="form-select"
+                id="borderRadius"
               >
                 {types
                   .map((typey) => <option key={ typey }>{ typey }</option>)}
@@ -101,7 +102,7 @@ class Settings extends Component {
             </label>
           </div>
         </form>
-        <button type="button" onClick={ this.handleClick } className="btn btn-dark">
+        <button type="button" onClick={ this.handleClick } id="btn-settings">
           Apply Filter
         </button>
       </main>
