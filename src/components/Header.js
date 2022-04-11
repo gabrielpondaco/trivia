@@ -8,14 +8,16 @@ class Header extends React.Component {
     const { email, nome, score } = this.props;
     const hashedEmail = md5(email).toString();
     return (
-      <header>
-        <h3 data-testid="header-player-name">{ nome }</h3>
+      <header className="d-flex justify-content-between">
+        <div>
+          <h3 data-testid="header-player-name">{ nome }</h3>
+          <img
+            src={ `https://www.gravatar.com/avatar/${hashedEmail}` }
+            alt="img-profile"
+            data-testid="header-profile-picture"
+          />
+        </div>
         <h3 data-testid="header-score">{ score }</h3>
-        <img
-          src={ `https://www.gravatar.com/avatar/${hashedEmail}` }
-          alt="img-profile"
-          data-testid="header-profile-picture"
-        />
       </header>
     );
   }

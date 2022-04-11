@@ -37,7 +37,7 @@ class Timer extends React.Component {
   render() {
     const { time } = this.state;
     return (
-      <p id="timer">{ time }</p>
+      <p id="timer" className="digitalFont">{ time }</p>
     );
   }
 }

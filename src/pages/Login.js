@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import logo from '../trivia.png';
 import { login, setToken } from '../actions/index';
 import { fetchToken } from '../services/fetch';
 
@@ -59,46 +60,51 @@ class Login extends Component {
   render() {
     const { gravatarEmail, name, isDisabled } = this.state;
     return (
-      <div>
+      <div className="maxWidth">
+        <img src={ logo } className="App-logo" alt="logo" />
         <form>
-          <label htmlFor="email">
-            Email:
+          <div className="mb-3 d-flex justify-content-around">
             <input
               name="gravatarEmail"
               data-testid="input-gravatar-email"
               type="email"
               onChange={ this.handleChange }
               value={ gravatarEmail }
+              placeholder="Email"
+              className="input-group-text"
             />
-          </label>
-
-          <label htmlFor="name">
-            Nome:
+          </div>
+          <div className="mb-3 d-flex justify-content-around">
             <input
               name="name"
               data-testid="input-player-name"
               type="text"
               onChange={ this.handleChange }
               value={ name }
+              placeholder="Nome"
+              className="input-group-text"
             />
-          </label>
-
+          </div>
+        </form>
+        <div className="d-flex justify-content-around width228">
           <button
             type="button"
             data-testid="btn-play"
             disabled={ isDisabled }
             onClick={ this.handleClick }
+            className="btn btn-dark"
           >
             Play
           </button>
-        </form>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.goSettings }
-        >
-          SETTINGS
-        </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.goSettings }
+            className="btn btn-dark"
+          >
+            Settings
+          </button>
+        </div>
       </div>
     );
   }

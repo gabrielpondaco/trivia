@@ -135,48 +135,49 @@ class Game extends Component {
     const { questions, answers, answered, questionNumber, timeLeft,
       resetClock } = this.state;
     return (
-      <div>
-        <h1>Game Page</h1>
+      <div className="formWidth">
         <Header />
-        {resetClock ? (
-          <Timer onChange={ this.handleTime } resetClock={ resetClock } />) : ''}
         <div>
-          {questions.length > 0 ? (
-            <div>
-              <p
-                data-testid="question-category"
-              >
-                { questions[questionNumber].category }
-              </p>
-              <p data-testid="question-text">
-                { he.decode(questions[questionNumber].question) }
-              </p>
-              <div data-testid="answer-options">
-                {answers.map((answer, index) => (
-                  <button
-                    className={ answered ? this.handleColor(answer) : '' }
-                    onClick={ this.handleClickAnswered }
-                    type="button"
-                    key={ index }
-                    data-testid={ (questions[questionNumber].correct_answer === answer)
-                      ? 'correct-answer' : `wrong-answer-${index}` }
-                  >
-                    {answer}
-                  </button>
-                ))}
+          {resetClock ? (
+            <Timer onChange={ this.handleTime } resetClock={ resetClock } />) : ''}
+          <div>
+            {questions.length > 0 ? (
+              <div>
+                <p
+                  data-testid="question-category"
+                >
+                  { questions[questionNumber].category }
+                </p>
+                <p data-testid="question-text">
+                  { he.decode(questions[questionNumber].question) }
+                </p>
+                <div data-testid="answer-options">
+                  {answers.map((answer, index) => (
+                    <button
+                      className={ answered ? this.handleColor(answer) : '' }
+                      onClick={ this.handleClickAnswered }
+                      type="button"
+                      key={ index }
+                      data-testid={ (questions[questionNumber].correct_answer === answer)
+                        ? 'correct-answer' : `wrong-answer-${index}` }
+                    >
+                      {he.decode(answer)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : ''}
+            ) : ''}
+          </div>
+          {answered || timeLeft === 0
+            ? (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.handleClickNext }
+              >
+                Next
+              </button>) : ''}
         </div>
-        {answered || timeLeft === 0
-          ? (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.handleClickNext }
-            >
-              Next
-            </button>) : ''}
       </div>
     );
   }
