@@ -3,48 +3,61 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import HeaderFeedback from '../components/HeaderFeedback';
 import { restartGame } from '../actions/index';
+import feedbackIMG from '../images/feedback1.svg';
+import '../css/feedback.css';
 
 class Feedback extends Component {
   render() {
     const { rightAnswers, history, setScore, restart } = this.props;
     const AVALIATOR = 3;
     return (
-      <div>
-        <HeaderFeedback />
-        {(rightAnswers < AVALIATOR) ? (
-          <h4 data-testid="feedback-text">Could be better...</h4>
-        ) : (
-          <h4 data-testid="feedback-text">Well Done!</h4>
-        )}
-        <p>Placar Final:</p>
-        <p data-testid="feedback-total-score">
-          { setScore }
-        </p>
-        <p> Acertos: </p>
-        <p data-testid="feedback-total-question">
-          { rightAnswers }
-        </p>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ () => {
-            restart();
-            history.push('/');
-          } }
-        >
-          JOGAR NOVAMENTE
-
-        </button>
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ () => {
-            history.push('/ranking');
-          } }
-        >
-          VER RANKING
-
-        </button>
+      <div className="App-header d-flex justify-content-between flex-row">
+        <div className="leftMargin d-flex justify-content-center flex-column">
+          <HeaderFeedback />
+          {(rightAnswers < AVALIATOR) ? (
+            <h4 data-testid="feedback-text">
+              Da pra melhorar!!!!
+              <span role="img" aria-label="facepalm">🤦‍♀️</span>
+            </h4>
+          ) : (
+            <h4 data-testid="feedback-text">
+              Bom demais!!!
+              <span role="img" aria-label="emoji">🧑‍🎓</span>
+            </h4>
+          )}
+          <span data-testid="feedback-total-score">
+            Placar Final:
+            { `  ${setScore}` }
+          </span>
+          <span data-testid="feedback-total-question">
+            Acertos:
+            { ` ${rightAnswers}` }
+          </span>
+          <div className="mt-5">
+            <button
+              type="button"
+              className="feedbackBtns me-3"
+              data-testid="btn-play-again"
+              onClick={ () => {
+                restart();
+                history.push('/');
+              } }
+            >
+              Play Again
+            </button>
+            <button
+              className="feedbackBtns"
+              type="button"
+              data-testid="btn-ranking"
+              onClick={ () => {
+                history.push('/ranking');
+              } }
+            >
+              Ranking
+            </button>
+          </div>
+        </div>
+        <img src={ feedbackIMG } alt="feecback" className="feedbackIMG marginRight" />
       </div>
     );
   }

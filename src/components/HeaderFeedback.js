@@ -27,12 +27,12 @@ class HeaderFeedback extends Component {
     const { email, name, score } = this.props;
     const hashedEmail = md5(email).toString();
     return (
-      <header>
-        <h1>Feedback</h1>
+      <header className="">
         <img
           data-testid="header-profile-picture"
           src={ `https://www.gravatar.com/avatar/${hashedEmail}` }
           alt="img-profile"
+          className="img-avatar"
         />
         <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">{ score }</p>

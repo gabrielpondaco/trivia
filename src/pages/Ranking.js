@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { restartGame } from '../actions/index';
+import '../css/ranking.css';
+import rankingIMG from '../image/fans.svg';
+import ranking from '../image/ranking.png';
 
 class Ranking extends Component {
   constructor() {
@@ -35,24 +38,30 @@ class Ranking extends Component {
   render() {
     const { players } = this.state;
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <button
-          type="button"
-          onClick={ this.handleClick }
-          data-testid="btn-go-home"
-        >
-          HOME
-        </button>
-        {
-          players.sort((a, b) => b.score - a.score).map((player, index) => (
-            <div key={ player.score }>
-              <img src={ player.picture } alt={ player.name } />
-              <p data-testid={ `player-name-${index}` }>{ player.name }</p>
-              <p data-testid={ `player-score-${index}` }>{ player.score }</p>
-            </div>
-          ))
-        }
+      <div className="">
+        <div className="rankingStyle d-flex">
+          <img src={ rankingIMG } alt="ranking" className="rankingIMG" />
+          <img src={ ranking } alt="ranking" className="rankingLetras" />
+          <button
+            type="button"
+            onClick={ this.handleClick }
+            data-testid="btn-go-home"
+            className="rankingBtn"
+          >
+            Home
+          </button>
+          <div className="d-flex flex-wrap rankingWidth">
+            {
+              players.sort((a, b) => b.score - a.score).map((player, index) => (
+                <div key={ player.score } className="me-5 d-flex flex-column">
+                  <img src={ player.picture } alt={ player.name } className="rakingAvatar" />
+                  <p data-testid={ `player-name-${index}` }>{ player.name }</p>
+                  <p data-testid={ `player-score-${index}` }>{ player.score }</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
       </div>
     );
   }

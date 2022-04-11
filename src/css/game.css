@@ -193,7 +193,7 @@
   margin-top: 20px;
 }
 
-#btn-next:hover {
+/* #btn-next:hover {
   animation: ani 8s linear infinite;
   border: none;
 }
@@ -206,7 +206,7 @@
   100% {
    background-position: 400%;
   }
- }
+ } */
 
  #btn-next::before {
   background: linear-gradient(90deg, var(--cinza-escuro), var(--cinza-claro), var(--branco), var(--cinza-escuro), var(--cinza-claro));
@@ -232,4 +232,8 @@
  .categoryLabel {
   font-size: calc(8px + 2vmin);
   color: #e2d0fc;
+ }
+
+ h3 {
+   text-align: center;
  }

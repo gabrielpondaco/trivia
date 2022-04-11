@@ -66,16 +66,6 @@ class Game extends Component {
     this.createAnswers();
   }
 
-  handleColor(answer) {
-    const { questions, questionNumber } = this.state;
-    const correct = questions[questionNumber].correct_answer === answer;
-    if (correct) {
-      return 'green-border';
-    }
-
-    return 'red-border';
-  }
-
   calculatePoint() {
     const { questions, questionNumber } = this.state;
     const base = 10;
@@ -93,6 +83,16 @@ class Game extends Component {
     default:
       return 0;
     }
+  }
+
+  handleColor(answer) {
+    const { questions, questionNumber } = this.state;
+    const correct = questions[questionNumber].correct_answer === answer;
+    if (correct) {
+      return 'green-border';
+    }
+
+    return 'red-border';
   }
 
   handleClickAnswered({ target }) {
@@ -157,7 +157,7 @@ class Game extends Component {
                 </h1>
               </span>
               <span className="span-question">
-                <h3 data-testid="question-text">
+                <h3 data-testid="question-text" className="">
                   { he.decode(questions[questionNumber].question) }
                 </h3>
               </span>
@@ -171,7 +171,7 @@ class Game extends Component {
                     data-testid={ (questions[questionNumber].correct_answer === answer)
                       ? 'correct-answer' : `wrong-answer-${index}` }
                   >
-                    {answer}
+                    { he.decode(answer)}
                   </button>
                 ))}
               </div>
