@@ -8,10 +8,17 @@ class Header extends React.Component {
     const { email, nome, score } = this.props;
     const hashedEmail = md5(email).toString();
     return (
-      <header>
-        <h3 data-testid="header-player-name">{ nome }</h3>
-        <h3 data-testid="header-score">{ score }</h3>
+      <header className="header-game">
+        <section className="section-span-header">
+          <span className="span-header-game">
+            <h2 data-testid="header-player-name">{ nome }</h2>
+          </span>
+          <span className="span-header-game">
+            <h2 data-testid="header-score">{ score }</h2>
+          </span>
+        </section>
         <img
+          className="img-avatar"
           src={ `https://www.gravatar.com/avatar/${hashedEmail}` }
           alt="img-profile"
           data-testid="header-profile-picture"

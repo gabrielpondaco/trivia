@@ -1,0 +1,32 @@
+:root {
+  --preto: #282a36;
+  --cinza-escuro: #44475a;
+  --cinza-claro: #44475a;
+  --branco: #f8f8f2;
+  --roxo: #6272a4;
+  --ciano: #8be9fd;
+  --verde: #50fa7b;
+  --laranja: #ffb86c;
+  --rosas: #ff79c6;
+  --roxo: #bd93f9;
+  --vermelho: #ff5555;
+  --amarelo: #f1fa8c;
+}
+
+.body-settings {
+  background-color: #50fa7b;
+}
+
+#settings-logo {
+  height: 250px;
+  position: relative;
+  bottom: 50%;
+}
+
+.header-settings {
+  background-color: #ff5555;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

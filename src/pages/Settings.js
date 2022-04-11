@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { setSettings } from '../actions/index';
+import '../css/settings.css';
+import logoSettings from '../images/configTrivia.png';
 
 const EIGHT = 8;
 const MULTIPLE_CHOICE = 'Multiple Choice';
@@ -53,50 +55,55 @@ class Settings extends Component {
     const types = [MULTIPLE_CHOICE, 'True / False'];
     const { category, difficulty, type } = this.state;
     return (
-      <main>
-        <h1 data-testid="settings-title">Configurações</h1>
-        <form>
-          <label htmlFor="category">
-            Category:
-            <select
-              name="category"
-              value={ category }
-              onChange={ this.onInputChange }
-            >
-              {categories
-                .map((categoryy, index) => (
-                  <option key={ categoryy } id={ index }>{ categoryy }</option>))}
-            </select>
-          </label>
+      <body className="body-settings">
+        <header className="header-settings">
+          <img src={ logoSettings } alt="settings-logo" id="settings-logo" />
+          <h1 data-testid="settings-title" id="h1-settings">Configurações</h1>
+        </header>
+        <main className="main-settings">
+          <form>
+            <label htmlFor="category">
+              Category:
+              <select
+                name="category"
+                value={ category }
+                onChange={ this.onInputChange }
+              >
+                {categories
+                  .map((categoryy, index) => (
+                    <option key={ categoryy } id={ index }>{ categoryy }</option>))}
+              </select>
+            </label>
 
-          <label htmlFor="difficulty">
-            Difficulty:
-            <select
-              name="difficulty"
-              value={ difficulty }
-              onChange={ this.onInputChange }
-            >
-              {difficulties
-                .map((difficultyy) => (
-                  <option key={ difficultyy }>{ difficultyy }</option>))}
-            </select>
-          </label>
-          <label htmlFor="type">
-            Type:
-            <select
-              name="type"
-              value={ type }
-              onChange={ this.onInputChange }
-            >
-              {types
-                .map((typey) => <option key={ typey }>{ typey }</option>)}
-            </select>
-          </label>
-        </form>
-        <button type="button" onClick={ this.handleClick }>
-          Apply Filter
-        </button>
-      </main>
+            <label htmlFor="difficulty">
+              Difficulty:
+              <select
+                name="difficulty"
+                value={ difficulty }
+                onChange={ this.onInputChange }
+              >
+                {difficulties
+                  .map((difficultyy) => (
+                    <option key={ difficultyy }>{ difficultyy }</option>))}
+              </select>
+            </label>
+            <label htmlFor="type">
+              Type:
+              <select
+                name="type"
+                value={ type }
+                onChange={ this.onInputChange }
+              >
+                {types
+                  .map((typey) => <option key={ typey }>{ typey }</option>)}
+              </select>
+            </label>
+          </form>
+          <button type="button" onClick={ this.handleClick }>
+            Apply Filter
+          </button>
+        </main>
+      </body>
     );
   }
 }

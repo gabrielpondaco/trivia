@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { login, setToken } from '../actions/index';
 import { fetchToken } from '../services/fetch';
+import '../css/login.css';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -59,47 +61,57 @@ class Login extends Component {
   render() {
     const { gravatarEmail, name, isDisabled } = this.state;
     return (
-      <div>
-        <form>
-          <label htmlFor="email">
-            Email:
-            <input
-              name="gravatarEmail"
-              data-testid="input-gravatar-email"
-              type="email"
-              onChange={ this.handleChange }
-              value={ gravatarEmail }
-            />
-          </label>
+      <body className="body-login">
+        <header className="header-login">
+          <img src={ logo } className="App-logo" alt="logo" />
+        </header>
+        <main className="main-login">
+          <form>
+            <label htmlFor="email">
+              <input
+                id="input-email"
+                name="gravatarEmail"
+                data-testid="input-gravatar-email"
+                type="email"
+                onChange={ this.handleChange }
+                value={ gravatarEmail }
+                placeholder="E-mail"
+              />
+            </label>
+            <label htmlFor="name">
+              <input
+                id="input-nome"
+                name="name"
+                data-testid="input-player-name"
+                type="text"
+                onChange={ this.handleChange }
+                value={ name }
+                placeholder="Nome"
+              />
+            </label>
 
-          <label htmlFor="name">
-            Nome:
-            <input
-              name="name"
-              data-testid="input-player-name"
-              type="text"
-              onChange={ this.handleChange }
-              value={ name }
-            />
-          </label>
-
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ this.handleClick }
-          >
-            Play
-          </button>
-        </form>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.goSettings }
-        >
-          SETTINGS
-        </button>
-      </div>
+          </form>
+          <section className="section-btn">
+            <button
+              id="btn-play"
+              type="button"
+              data-testid="btn-play"
+              disabled={ isDisabled }
+              onClick={ this.handleClick }
+            >
+              Play
+            </button>
+            <button
+              id="btn-settings"
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.goSettings }
+            >
+              SETTINGS
+            </button>
+          </section>
+        </main>
+      </body>
     );
   }
 }

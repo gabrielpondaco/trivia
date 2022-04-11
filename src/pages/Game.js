@@ -5,7 +5,8 @@ import Header from '../components/Header';
 import { fetchQuestions, fetchToken } from '../services/fetch';
 import { setToken, sumScore, setAnswers } from '../actions/index';
 import Timer from '../components/Timer';
-import '../App.css';
+import '../css/game.css';
+import logo from '../trivia.png';
 
 const he = require('he');
 
@@ -135,23 +136,29 @@ class Game extends Component {
     const { questions, answers, answered, questionNumber, timeLeft,
       resetClock } = this.state;
     return (
-      <div>
-        <h1>Game Page</h1>
-        <Header />
-        {resetClock ? (
-          <Timer onChange={ this.handleTime } resetClock={ resetClock } />) : ''}
-        <div>
+      <body className="body-game">
+        <div className="header-timer">
+          <img src={ logo } className="App-logo-game" alt="logo" />
+          <Header />
+          {resetClock ? (
+            <Timer onChange={ this.handleTime } resetClock={ resetClock } />) : ''}
+        </div>
+        <div className="container-game">
           {questions.length > 0 ? (
-            <div>
-              <p
-                data-testid="question-category"
-              >
-                { questions[questionNumber].category }
-              </p>
-              <p data-testid="question-text">
-                { he.decode(questions[questionNumber].question) }
-              </p>
-              <div data-testid="answer-options">
+            <section className="section-category-question">
+              <span className="span-category">
+                <h1
+                  data-testid="question-category"
+                >
+                  { questions[questionNumber].category }
+                </h1>
+              </span>
+              <span className="span-question">
+                <h3 data-testid="question-text">
+                  { he.decode(questions[questionNumber].question) }
+                </h3>
+              </span>
+              <div data-testid="answer-options" className="container-btn-question">
                 {answers.map((answer, index) => (
                   <button
                     className={ answered ? this.handleColor(answer) : '' }
@@ -165,19 +172,20 @@ class Game extends Component {
                   </button>
                 ))}
               </div>
-            </div>
+            </section>
           ) : ''}
+          {answered || timeLeft === 0
+            ? (
+              <button
+                id="btn-next"
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.handleClickNext }
+              >
+                Next
+              </button>) : ''}
         </div>
-        {answered || timeLeft === 0
-          ? (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.handleClickNext }
-            >
-              Next
-            </button>) : ''}
-      </div>
+      </body>
     );
   }
 }
